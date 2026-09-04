@@ -8,13 +8,15 @@ jobs:
       - uses: actions/checkout@v4
       - run: cmake --build build
       - uses: actions/upload-artifact@v4
-        with: { name: binaries, path: binaries/ }
+        with:
+          name: pin
+          path: build/cpu_monitor_app
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: action/download-artifact@v4
-      - run: make test
+      - run: ctest --test-dir build
   deploy:
     needs: test
     runs-on: ubuntu-latest
